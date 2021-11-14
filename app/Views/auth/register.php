@@ -46,7 +46,7 @@
           
           <div class="row wrap d-flex">
           <div class="col-md-6 form-outline mb-3">
-            <input required type="file" accept=".png, .jpg, .jpeg" class="form-control mb-2" onchange="previewFile(event);" name="photo" />
+            <input type="file" accept=".png, .jpg, .jpeg" class="form-control mb-2" onchange="previewFile(event);" name="photo" />
             <label class="form-label" for="form3Example4">Photo</label>
           </div>
           <div class="col-md-6 text-center align-center mb-3">

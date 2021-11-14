@@ -45,7 +45,12 @@
                       <div class="col-sm-4 bg-primary rounded-left">
                         <div class="card-block text-center text-white">
                             
-                            <img src="<?= session()->get('user')['photo'] ?>" width="120" height="120" class="mt-5" style="border-radius: 50%;" alt="">
+                            <?php if (session()->get('user')['photo']) : ?>
+                              <img src="<?= session()->get('user')['photo'] ?>" width="120" height="120" class="mt-5" style="border-radius: 50%;" alt="" />
+                            <?php endif;?>
+                            <?php if (!session()->get('user')['photo']) : ?>
+                              <i class="fa fa-user fa-4x mt-5"></i>
+                            <?php endif;?>
                             <h2 class="font-weight-bold mt-4"><?= session()->get('user')['name'] ?></h2>
                             <p class="mt-2 mb-5"><?= session()->get('user')['created_at'] ?></p>
                         </div>

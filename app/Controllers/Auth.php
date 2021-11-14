@@ -25,6 +25,7 @@ class Auth extends BaseController
 
     public function doRegister()
     {
+        
         $validation = $this->validate([
             'name' => [
                 'rules' => 'required',
@@ -41,7 +42,7 @@ class Auth extends BaseController
                ]
             ],
             'password' =>  [
-                'rules' => 'required|min_length[6]|max_length[15]',
+                'rules' => 'required|min_length[5]|max_length[15]',
                 'errors' => [
                     'required' => 'Password field is required',
                     'min_length' => 'Password must have min 5 character',
@@ -63,7 +64,10 @@ class Auth extends BaseController
 
             $usrid = $user->getInsertID();
             
-            if ($this->request->getFile('photo')) {
+
+            
+            $hasFilePhoto = $this->request->getFile('photo');
+            if ($hasFilePhoto->getError() !== 4) {
                 \Cloudinary::config([
                     "cloud_name" => env('CLOUD_NAME'),
                     "api_key" => env('API_KEY'),
@@ -113,11 +117,15 @@ class Auth extends BaseController
             $user = new User();
             $userInfo = $user->where('email', $email)->first();
 
-            if (password_verify($password, $userInfo['password'])) {
-                session()->set('user', $userInfo);
-                return redirect()->to('/profile');
-            } else {
+            if (!$userInfo) {
                 return redirect()->back()->with('fail', 'Email or password does not match with our record');
+            } else {
+                if (password_verify($password, $userInfo['password'])) {
+                    session()->set('user', $userInfo);
+                    return redirect()->to('/profile');
+                } else {
+                    return redirect()->back()->with('fail', 'Email or password does not match with our record');
+                }
             }
         }
     }
