@@ -113,12 +113,16 @@ class Auth extends BaseController
             $user = new User();
             $userInfo = $user->where('email', $email)->first();
 
-            if (password_verify($password, $userInfo['password'])) {
-                session()->set('user', $userInfo);
-                return redirect()->to('/profile');
-            } else {
-                return redirect()->back()->with('fail', 'Email or password does not match with our record');
-            }
+	    if(!$userInfo){
+	       return redirect()->back()->with('fail', 'Email or password does not match with our record');
+	    } else {
+	       if (password_verify($password, $userInfo['password'])) {
+                   session()->set('user', $userInfo);
+                   return redirect()->to('/profile');
+               } else {
+                   return redirect()->back()->with('fail', 'Email or password does not match with our record');
+               }
+	    } 
         }
     }
 
