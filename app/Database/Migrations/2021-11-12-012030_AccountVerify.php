@@ -24,7 +24,7 @@ class AccountVerify extends Migration
                 'null' => FALSE
             ],
             'expired' => [
-                'type' => 'DATE',
+                'type' => 'DATETIME',
                 'null' => FALSE
             ],
         ]);
